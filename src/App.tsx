@@ -3,6 +3,7 @@ import { clsx } from "clsx"
 import { Scene, store } from "./Scene"
 import GithubIcon from "./components/GithubIcon"
 import { Button } from "./components/Button"
+import CloseIcon from "./components/CloseIcon"
 
 export type Experience = "ar" | "browser" | "undecided"
 
@@ -15,14 +16,22 @@ function App() {
             <Scene mode={experienceMode} endHandler={() => setExperienceMode("undecided")} />
          </div>
 
-         <a
-            href="https://github.com/decipher-cs/AR-solar-system"
-            className="absolute right-1 top-2 z-50"
-            target="_blank"
-            aria-label="visit github"
-         >
-            <GithubIcon />
-         </a>
+         <div className="absolute right-1 top-2 z-50 flex gap-2">
+            <a
+               href="https://github.com/decipher-cs/AR-solar-system"
+               className=""
+               target="_blank"
+               aria-label="visit github"
+            >
+               <GithubIcon />
+            </a>
+            <Button
+               className={clsx(experienceMode !== "browser" && "hidden", " p-0 rounded-full")}
+               onClick={() => setExperienceMode("undecided")}
+            >
+               <CloseIcon />
+            </Button>
+         </div>
 
          <div
             className={clsx(
