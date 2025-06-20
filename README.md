@@ -20,3 +20,5 @@ https://pmndrs.github.io/xr/
 - [x] Add credits/addribution for 3D models
 - [ ] Add a table for inaccuracies
 - [ ] Remove magic numbers from component - `Planet` and `Orbit` for y-axis
+- [ ] on AR exit change experience mode to `null`
+- [ ] Add a warning for device support and performence issues on low-end devices

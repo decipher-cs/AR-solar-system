@@ -1,58 +1,66 @@
-import { Canvas } from "@react-three/fiber"
-import { XR, createXRStore, XROrigin } from "@react-three/xr"
-import { Suspense } from "react"
-import { OrbitControls, Text } from "@react-three/drei"
-import { solarSystemData } from "./solarSystem"
-import { Orbit } from "./components/Orbit"
-import { Planet } from "./components/Planet"
+import { useEffect, useState, type ButtonHTMLAttributes, type ComponentProps, type PropsWithChildren } from "react"
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { Scene, store } from "./Scene"
+import GithubIcon from "./components/GithubIcon"
 
-const store = createXRStore({
-   emulate: true,
-   depthSensing: true,
-   bounded: false,
-   domOverlay: true,
-})
-
-function App() {
+const Button = ({ children, className, ...props }: PropsWithChildren<{} & ComponentProps<"button">>) => {
    return (
-      <div className="absolute inset-0 flex flex-col bg-white">
-         <Canvas className="">
-            <XR store={store}>
-               <Suspense
-                  fallback={
-                     <Text color="black" anchorX="center" anchorY="middle">
-                        Loading your scene. Please wait.
-                     </Text>
-                  }
-               >
-                  <group>
-                     {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
-                        <group key={planet}>
-                           <Text color={"black"} position={[orbitRadius, 11, 0]} fontSize={0.1}>
-                              {planet}
-                           </Text>
-                           <Orbit radius={orbitRadius} />
-                           <Planet
-                              radius={planetRadius}
-                              orbitRadius={orbitRadius}
-                              speed={orbitSpeed}
-                              texture={texture}
-                           />
-                        </group>
-                     ))}
-                  </group>
+      <button
+         type="button"
+         className={twMerge(
+            "text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus-visible:ring-4 focus-visible:ring-blue-300 dark:focus:ring-blue-800 font-bold rounded-lg text-sm sm:text-md uppercase px-5 py-2.5 text-center me-2 mb-2 cursor-pointer",
+            className
+         )}
+         {...props}
+      >
+         {children}
+      </button>
+   )
+}
 
-                  <group position={[0, 0, 0]}>
-                     <XROrigin />
-                  </group>
+export type Experience = "ar" | "browser"
+function App() {
+   const [experienceMode, setExperienceMode] = useState<Experience | null>(null)
 
-                  <OrbitControls />
-                  <axesHelper scale={100} />
-               </Suspense>
-            </XR>
-         </Canvas>
-         <button onClick={() => store.enterAR()}>Enter AR</button>
-      </div>
+   return (
+      <main className="relative w-full min-h-svh bg-special bg-black text-white grid place-items-center">
+         <div className={clsx("absolute inset-0 flex flex-col z-30")}>
+            <Scene mode={experienceMode} />
+         </div>
+
+         <a
+            href="https://github.com/decipher-cs/AR-solar-system"
+            className="absolute right-1 top-2 z-50"
+            target="_blank"
+            aria-label="visit github"
+         >
+            <GithubIcon />
+         </a>
+
+         <div
+            className={clsx(
+               "p-5 sm:p-9 min-w-11/12 sm:min-w-1/2 min-h-1/2 grid glass absolute z-40",
+               experienceMode && "hidden"
+            )}
+         >
+            <Button
+               onClick={() => {
+                  setExperienceMode("browser")
+               }}
+            >
+               View in browser
+            </Button>
+            <Button
+               onClick={() => {
+                  setExperienceMode("ar")
+                  store.enterAR()
+               }}
+            >
+               Enter AR mode
+            </Button>
+         </div>
+      </main>
    )
 }
 
