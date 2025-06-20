@@ -1,60 +1,19 @@
-import { Canvas, useFrame } from "@react-three/fiber"
+import { Canvas } from "@react-three/fiber"
 import { XR, createXRStore, XROrigin } from "@react-three/xr"
-import { Suspense, useRef, useState, type ElementRef } from "react"
-import { OrbitControls, Sphere, Text, Ring, Html, useTexture } from "@react-three/drei"
+import { Suspense } from "react"
+import { OrbitControls, Text } from "@react-three/drei"
 import { solarSystemData } from "./solarSystem"
+import { Orbit } from "./components/Orbit"
+import { Planet } from "./components/Planet"
 
 const store = createXRStore({
    emulate: true,
    depthSensing: true,
    bounded: false,
+   domOverlay: true,
 })
 
-const Orbit = ({ radius }: { radius: number }) => (
-   <Ring rotation={[-Math.PI / 2, 0, 0]} args={[radius, radius + 0.01]} position={[0, 0.5, 0]}>
-      <meshBasicMaterial color={"white"} />
-   </Ring>
-)
-
-const Planet = ({
-   radius,
-   orbitRadius,
-   speed,
-   paused = false,
-   texture,
-}: {
-   radius: number
-   orbitRadius: number
-   speed: number
-   paused?: boolean
-   texture: string
-}) => {
-   useFrame(({ clock }) => {
-      const planet = ref.current
-      if (!planet || paused) return
-
-      const elapsed = clock.getElapsedTime()
-      const { sin, cos } = Math
-
-      const newXPos = orbitRadius * cos(elapsed * speed)
-      const newZPos = orbitRadius * sin(elapsed * speed)
-      planet.position.set(newXPos, 0.5, newZPos)
-   })
-
-   const ref = useRef<ElementRef<typeof Sphere>>(null)
-   const map = useTexture(texture)
-
-   return (
-      <Sphere args={[radius / 8]} position={[orbitRadius, 0.5, orbitRadius]} ref={ref}>
-         <meshBasicMaterial map={map} />
-      </Sphere>
-   )
-}
-
 function App() {
-   const [animationEnabled, setAnimationEnabled] = useState(true)
-   const [orbitSpeed, setOrbitSpeed] = useState(1)
-
    return (
       <div className="absolute inset-0 flex flex-col bg-white">
          <Canvas className="">
@@ -77,7 +36,6 @@ function App() {
                               radius={planetRadius}
                               orbitRadius={orbitRadius}
                               speed={orbitSpeed}
-                              paused={!animationEnabled}
                               texture={texture}
                            />
                         </group>
@@ -89,43 +47,7 @@ function App() {
                   </group>
 
                   <OrbitControls />
-                  <axesHelper scale={1000} />
-
-                  <Html
-                     as="div" // Wrapping element (default: 'div')
-                     distanceFactor={10} // If set (default: undefined), children will be scaled by this factor, and also by distance to a PerspectiveCamera / zoom by a OrthographicCamera.
-                     // calculatePosition={(el, camera, { height, width }) => { return [width, 1, height]; }}
-                  >
-                     <form className="border-3 p-3 bg-white grid *:flex" onSubmit={(e) => e.preventDefault()}>
-                        <label htmlFor="animation">
-                           Enable Animation
-                           <input
-                              type="checkbox"
-                              name="animation"
-                              checked={animationEnabled}
-                              onChange={(e) => {
-                                 const checked = e.target.checked
-                                 setAnimationEnabled(checked)
-                              }}
-                           />
-                        </label>
-
-                        <label htmlFor="speed">
-                           Orbit Speed
-                           <input
-                              type="number"
-                              name="speed"
-                              max={100}
-                              min={0}
-                              value={orbitSpeed}
-                              onChange={(e) => {
-                                 const value = e.target.value
-                                 setOrbitSpeed(Number(value))
-                              }}
-                           />
-                        </label>
-                     </form>
-                  </Html>
+                  <axesHelper scale={100} />
                </Suspense>
             </XR>
          </Canvas>
