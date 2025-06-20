@@ -1,6 +1,6 @@
 import { Sphere, useTexture } from "@react-three/drei"
 import { useFrame } from "@react-three/fiber"
-import { useRef, type ElementRef } from "react"
+import { Suspense, useRef, type ElementRef } from "react"
 
 export const Planet = ({
    radius,
@@ -31,8 +31,10 @@ export const Planet = ({
    const map = useTexture(texture)
 
    return (
-      <Sphere args={[radius / 8]} position={[orbitRadius, 0.5, orbitRadius]} ref={ref}>
-         <meshBasicMaterial map={map} />
-      </Sphere>
+      <Suspense fallback={<Sphere args={[radius / 8]} position={[orbitRadius, 0.5, orbitRadius]} />}>
+         <Sphere args={[radius / 8]} position={[orbitRadius, 0.5, orbitRadius]} ref={ref}>
+            <meshBasicMaterial map={map} />
+         </Sphere>
+      </Suspense>
    )
 }

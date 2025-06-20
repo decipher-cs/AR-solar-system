@@ -18,34 +18,26 @@ export const Scene = ({ mode = "undecided" }: { mode?: Experience }) => {
    return (
       <Canvas className="">
          <XR store={store}>
-            <Suspense
-               fallback={
-                  <Text color="black" anchorX="center" anchorY="middle" scale={0.5}>
-                     Loading... Please wait
-                  </Text>
-               }
-            >
-               {mode === "browser" && <Environment background preset="night" />}
-               <group>
-                  {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
-                     <group key={planet}>
-                        <Text color={"black"} position={[orbitRadius, 11, 0]} fontSize={0.1}>
-                           {planet}
-                        </Text>
-                        <Orbit radius={orbitRadius} />
-                        <Planet radius={planetRadius} orbitRadius={orbitRadius} speed={orbitSpeed} texture={texture} />
-                     </group>
-                  ))}
-               </group>
+            <Suspense fallback={null}>{mode === "browser" && <Environment background preset="night" />}</Suspense>
+            <group>
+               {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
+                  <group key={planet}>
+                     <Text color={"black"} position={[orbitRadius, 11, 0]} fontSize={0.1}>
+                        {planet}
+                     </Text>
+                     <Orbit radius={orbitRadius} />
+                     <Planet radius={planetRadius} orbitRadius={orbitRadius} speed={orbitSpeed} texture={texture} />
+                  </group>
+               ))}
+            </group>
 
-               <group position={[0, 0, 0]}>
-                  <XROrigin />
-               </group>
+            <group position={[0, 0, 0]}>
+               <XROrigin />
+            </group>
 
-               <OrbitControls />
+            <OrbitControls />
 
-               {import.meta.env.DEV && <axesHelper scale={100} />}
-            </Suspense>
+            {import.meta.env.DEV && <axesHelper scale={100} />}
          </XR>
       </Canvas>
    )
