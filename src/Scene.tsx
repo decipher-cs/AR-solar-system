@@ -16,11 +16,15 @@ export const store = createXRStore({
 
 export const Scene = ({ endHandler, mode = "undecided" }: { mode?: Experience; endHandler?: () => void }) => {
    const CustomComponent = () => {
-      const mode = useXR((selector) => selector.mode)
+      const session = useXR((xr) => xr.session)
 
       useEffect(() => {
-         if (mode === null && endHandler) endHandler()
-      }, [mode])
+         if (!session || !endHandler) return
+         session.addEventListener("end", endHandler)
+         return () => {
+            session.removeEventListener("end", endHandler)
+         }
+      }, [])
       return null
    }
 
