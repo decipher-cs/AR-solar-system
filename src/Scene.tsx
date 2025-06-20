@@ -14,8 +14,7 @@ export const store = createXRStore({
    domOverlay: true,
 })
 
-export const Scene = ({ mode = "browser" }: { mode?: Experience | null }) => {
-   if (!mode) return null
+export const Scene = ({ mode = "undecided" }: { mode?: Experience }) => {
    return (
       <Canvas className="">
          <XR store={store}>
