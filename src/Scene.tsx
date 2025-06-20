@@ -1,6 +1,6 @@
-import { XR, createXRStore, XROrigin } from "@react-three/xr"
+import { XR, createXRStore, XROrigin, useXR, IfInSessionMode } from "@react-three/xr"
 import { Canvas } from "@react-three/fiber"
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import { Environment, OrbitControls, Text } from "@react-three/drei"
 import { solarSystemData } from "./solarSystem"
 import { Orbit } from "./components/Orbit"
@@ -14,10 +14,20 @@ export const store = createXRStore({
    domOverlay: true,
 })
 
-export const Scene = ({ mode = "undecided" }: { mode?: Experience }) => {
+export const Scene = ({ endHandler, mode = "undecided" }: { mode?: Experience; endHandler?: () => void }) => {
+   const CustomComponent = () => {
+      const mode = useXR((selector) => selector.mode)
+
+      useEffect(() => {
+         if (mode === null && endHandler) endHandler()
+      }, [mode])
+      return null
+   }
+
    return (
       <Canvas className="">
          <XR store={store}>
+            <CustomComponent />
             <Suspense fallback={null}>{mode === "browser" && <Environment background preset="night" />}</Suspense>
             <group>
                {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
@@ -35,7 +45,9 @@ export const Scene = ({ mode = "undecided" }: { mode?: Experience }) => {
                <XROrigin />
             </group>
 
-            <OrbitControls />
+            <IfInSessionMode deny={["immersive-vr", "immersive-ar"]}>
+               <OrbitControls />
+            </IfInSessionMode>
 
             {import.meta.env.DEV && <axesHelper scale={100} />}
          </XR>
