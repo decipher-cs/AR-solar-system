@@ -24,12 +24,12 @@ export default function Modal() {
          >
             <h1 className="uppercase text-3xl">Platform Support</h1>
             <p className="text-base">
-               For best support run this app on Chrome for Android, on a mid to high-end smartphone.
+               For best support, run this app on Chrome for Android on a mid to high-end smartphone.
                <br /> <br />
-               Desktop users can enable emulation using IWER by pressing "win+alt+e" upon which an emulator will drop
-               you into a simulation. After activating the "play-mode" you can use "shift+w/a/s/d" keys to move around.
+               Desktop users can enable emulation using IWER by pressing "Win + Alt + E." After entering AR mode,
+               activate "Play Mode" from the top bar. You can then use the Shift + W/A/S/D keys to move around.
                <br /> <br />
-               In case your platform is not supported, you can choose the less imersive desktop version.
+               If your platform is not supported, you can choose the less immersive desktop version.
             </p>
             <Button autoFocus className="place-self-end" onClick={() => setIsOpen(false)}>
                I understand
