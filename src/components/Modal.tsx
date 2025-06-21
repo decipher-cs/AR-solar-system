@@ -26,7 +26,7 @@ export default function Modal() {
             <p className="text-base">
                For best support, run this app on Chrome for Android on a mid to high-end smartphone.
                <br /> <br />
-               Desktop users can enable emulation using IWER by pressing "Win + Alt + E." After entering AR mode,
+               Desktop users can enable emulation using IWER by pressing "Win + Alt + E". After entering AR mode,
                activate "Play Mode" from the top bar. You can then use the Shift + W/A/S/D keys to move around.
                <br /> <br />
                If your platform is not supported, you can choose the less immersive desktop version.
