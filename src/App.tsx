@@ -36,6 +36,19 @@ function App() {
             </Button>
          </div>
 
+         {experienceMode === "ar" ? (
+            <p className="bg-white text-black p-3 sm:text-lg sm:p-8 mx-1 max-w-[50ch] rounded-3xl absolute z-50">
+               If you are seeing this message your device is not fully supported.
+               <br /> <br />
+               You might have forgotten to turn on the emulator before entering AR mode. This step is necessary if your
+               desktop does not support webXR. Refresh the page and enable emulation using IWER by pressing "Win + Alt +
+               E" and only then enter AR mode. Also make sure to enable "play-mode" in the emulator if you want to move
+               around.
+               <br /> <br />
+               If you are on mobile then view the browser version of the app.
+            </p>
+         ) : null}
+
          <div
             className={clsx(
                "p-5 sm:p-9 min-w-11/12 sm:min-w-1/2 min-h-1/2 glass absolute z-40",
