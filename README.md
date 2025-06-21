@@ -24,6 +24,13 @@ In case your device does not support webXR the app can also render the scene in 
 
 The [webXR API is experimental technology.](https://developer.mozilla.org/en-US/docs/Web/API/WebXR_Device_API)
 You can check if your device is compatible [here.](https://immersive-web.github.io/webxr-samples/)
+In unsupported devices meta's `IWER` is used for [emulation](https://pmndrs.github.io/xr/docs/getting-started/development-setup#2.-emulator:-iwer/devui)
+
+### Development setup
+
+Install `node_modules` with `pnpm i` and run the dev server with `pnpm dev`.
+A secure context (https) is required for XR to work properly which is taken care by using the package `@vitejs/plugin-basic-ssl`.
+Build with `pnpm build`
 
 ### Purpose
 
