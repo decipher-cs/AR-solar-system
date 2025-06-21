@@ -4,6 +4,7 @@ import { Scene, store } from "./Scene"
 import GithubIcon from "./components/GithubIcon"
 import { Button } from "./components/Button"
 import CloseIcon from "./components/CloseIcon"
+import Modal from "./components/Modal"
 
 export type Experience = "ar" | "browser" | "undecided"
 
@@ -12,6 +13,8 @@ function App() {
 
    return (
       <main className="relative w-full min-h-svh bg-special bg-black text-white grid place-items-center">
+         <Modal />
+
          <div className={clsx("absolute inset-0 flex flex-col z-30", experienceMode === "undecided" && "blur-sm")}>
             <Scene mode={experienceMode} endHandler={() => setExperienceMode("undecided")} />
          </div>
