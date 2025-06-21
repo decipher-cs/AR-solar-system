@@ -20,13 +20,16 @@ export default function Modal() {
          <dialog
             ref={modalRef}
             aria-modal={true}
-            className="backdrop:bg-black top-1/2 -translate-y-1/2 w-full rounded-lg sm:w-[60ch] mx-auto p-3 sm:p-8 grid gap-10"
+            className="top-1/2 -translate-y-1/2 w-full rounded-lg sm:w-[60ch] mx-auto p-3 sm:p-8 grid gap-10"
          >
             <h1 className="uppercase text-3xl">Platform Support</h1>
             <p className="text-base">
-               For best support run this app on Chrome for Android, on a mid to high-end smartphone. Desktop users can
-               enable emulation using IWER by pressing "win+alt+e". In case your platform is not supported, you can
-               choose the less imersive desktop version.
+               For best support run this app on Chrome for Android, on a mid to high-end smartphone.
+               <br /> <br />
+               Desktop users can enable emulation using IWER by pressing "win+alt+e" upon which an emulator will drop
+               you into a simulation. After activating the "play-mode" you can use "shift+w/a/s/d" keys to move around.
+               <br /> <br />
+               In case your platform is not supported, you can choose the less imersive desktop version.
             </p>
             <Button autoFocus className="place-self-end" onClick={() => setIsOpen(false)}>
                I understand
