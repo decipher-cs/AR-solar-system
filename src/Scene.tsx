@@ -31,27 +31,29 @@ export const Scene = ({ endHandler, mode = "undecided" }: { mode?: Experience; e
    return (
       <Canvas className="">
          <XR store={store}>
-            <CustomComponent />
-            <Suspense fallback={null}>{mode === "browser" && <Environment background preset="night" />}</Suspense>
-            <group>
-               {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
-                  <group key={planet}>
-                     <Text color={"black"} position={[orbitRadius, 11, 0]} fontSize={0.1}>
-                        {planet}
-                     </Text>
-                     <Orbit radius={orbitRadius} />
-                     <Planet radius={planetRadius} orbitRadius={orbitRadius} speed={orbitSpeed} texture={texture} />
-                  </group>
-               ))}
-            </group>
+            <Suspense fallback={<Text scale={0.5}>Loading...</Text>}>
+               <CustomComponent />
+               <Suspense fallback={null}>{mode === "browser" && <Environment background preset="night" />}</Suspense>
+               <group>
+                  {solarSystemData.map(({ planet, orbitRadius, planetRadius, orbitSpeed, texture }) => (
+                     <group key={planet}>
+                        <Text color={"black"} position={[orbitRadius, 11, 0]} fontSize={0.1}>
+                           {planet}
+                        </Text>
+                        <Orbit radius={orbitRadius} />
+                        <Planet radius={planetRadius} orbitRadius={orbitRadius} speed={orbitSpeed} texture={texture} />
+                     </group>
+                  ))}
+               </group>
 
-            <group position={[0, 0, 0]}>
-               <XROrigin />
-            </group>
+               <group position={[0, 0, 0]}>
+                  <XROrigin />
+               </group>
 
-            <IfInSessionMode deny={["immersive-vr", "immersive-ar"]}>
-               <OrbitControls />
-            </IfInSessionMode>
+               <IfInSessionMode deny={["immersive-vr", "immersive-ar"]}>
+                  <OrbitControls />
+               </IfInSessionMode>
+            </Suspense>
 
             {import.meta.env.DEV && <axesHelper scale={100} />}
          </XR>
